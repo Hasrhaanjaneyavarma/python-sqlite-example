@@ -1,0 +1,16 @@
+import sqlite3
+connec = sqlite3.connect('data1.db')
+cursor = connec.cursor()
+cursor.execute('''CREATE TABLE Prof (id INTEGER PRIMARY KEY, name, age, branch, salary)''')
+cursor.execute("INSERT INTO Prof (id, name, age, branch, salary) VALUES (01, 'Varma', 22, 'CSE', 10000)")
+cursor.execute("INSERT INTO Prof (id, name, age, branch, salary) VALUES (?, ?, ?, ?, ?)", (2, 'Surya', 26, 'BA', 20000))
+cursor.execute("SELECT * FROM Prof")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+try:
+    cursor.execute("SELECT * FROM non_existing_table")
+except sqlite3.OperationalError as e:
+         print(f"An error occurred: {e}")
+connec.commit()
+connec.close()
